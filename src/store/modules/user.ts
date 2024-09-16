@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { store } from '@/store';
-import { TOKEN_KEY } from '@/enums/cacheEnum';
+import { TOKEN_KEY, USER_ID_KEY, USER_ROLE_ID_KEY } from '@/enums/cacheEnum';
 import { loginApi } from '@/service/sys/user';
 import { getToken } from '@/utils/auth';
 import { Persistent } from '@/utils/cache/persistent';
@@ -40,10 +40,12 @@ export const useUserStore = defineStore({
       try {
         const { goHome = true, ...loginParams } = params;
         const data = await loginApi(loginParams);
-        const { token } = data;
+        const { token, user_id } = data;
 
         // save token
         this.setToken(token);
+        Persistent.setLocal(USER_ID_KEY, user_id)
+
       } catch (error) {
         return Promise.reject(error);
       }

@@ -2,7 +2,7 @@ export enum UserApi {
   LOGIN = '/login',
   SMS = '/sms/',
   REGISTER_USER = '/user',
-  GET_TOKEN = '/token',
+  GET_TOKEN = '/smstoken',
   GET_USERINFO = '/getuser',
   GET_USER_ROLE = '/getuserrole',
   GET_ROLE = '/getrole',

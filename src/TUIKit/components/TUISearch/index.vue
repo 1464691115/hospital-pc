@@ -27,11 +27,11 @@
           class="search-input"
           :searchType="searchType"
         />
-        <SearchMore
+        <!-- <SearchMore
           v-if="isPC || !searchingStatus"
           class="search-more"
           :searchType="searchType"
-        />
+        /> -->
       </div>
       <SearchContainer
         v-if="searchingStatus"

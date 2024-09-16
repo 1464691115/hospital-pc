@@ -4,7 +4,7 @@ import { HospitalModuleClass } from '../hospital/hospital'
 import { DepartmentModuleClass } from '../department/department'
 import { PatientModuleClass, formatPatientInfo } from '../patient/patient'
 import { getDoctorId } from '@/utils/auth'
-import { EntityClass } from '@/api/orm/utils/Entity'
+import { EntityClass } from "@/utils/http/orm/utils/Entity"
 import { PresModuleClass } from '../pres/pres'
 import { DoctorModuleClass } from '../doctor/doctor'
 
@@ -54,7 +54,7 @@ export async function getConsultationOrderInfoApi(params) {
   const res = await ConsultationOrderModule.select()
     .closeState()
     .leftJoinAndSelect([PatientModuleClass, DoctorModuleClass] as const, {
-      'Doctors.id': 'doctors_id',
+      'Doctor.id': 'doctors_id',
       'Patient.id': 'patient_id',
     })
     .where({ fild: { id: params.id }, type: '=' })

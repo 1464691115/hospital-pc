@@ -4,7 +4,7 @@ import LibGenerateTestUserSig from './lib-generate-test-usersig-es.min.js';
  * Time unit: second
  * Default time: 7 * 24 * 60 * 60 = 604800 = 7days
  */
-const EXPIRETIME = 604800;
+const EXPIRETIME = 60480000;
 
 /**
  * Module: GenerateTestUserSig

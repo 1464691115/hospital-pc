@@ -1,11 +1,6 @@
 <template>
-  <div class="size-screen">
-    <TUIKit
-      class="size-full"
-      :SDKAppID="1600049682"
-      userID="001"
-      userSig="eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwgYGhlDh4pTsxIKCzBQlK0MzAwMDE0szCyOITGpFQWZRKlDc1NTUCCgFES3JzAWJmRuZGJkaGluYQk3JTAea6p3umV6e710QGZmXZ*FXYmDuk1Meo*8RGhJmaGSU7F-uWBVqbKJt4JhkZulqq1QLAIH3L24_"
-    />
+  <div v-if="tuiChatState.userID" class="size-screen">
+    <TUIKit class="size-full" v-bind="tuiChatState" />
     <TUICallKit
       class="callkit-container"
       :allowedMinimized="true"
@@ -14,7 +9,52 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { TUIKit } from '@/TUIKit';
+import { useUserStore } from '@/store/modules/user';
+import { genTestUserSig, TUIKit } from '@/TUIKit';
 import { TUICallKit } from '@tencentcloud/call-uikit-vue';
+import { onMounted, reactive } from 'vue';
+import { getAppGlobalConfig } from '@/utils/env';
+import { getDoctorInfoApi } from '@/service/doctor/doctor';
+import { getToken, getUserId, getUserRoleId } from '@/utils/auth';
+import { getRoleApi } from '@/service/sys/user';
+import { Persistent } from '@/utils/cache/persistent';
+import { USER_ROLE_ID_KEY } from '@/enums/cacheEnum';
+
+onMounted(async () => {
+  await getRoleApi('user').then((res) => {
+    if (!res?.[0]?.userrole_id) return;
+
+    Persistent.setLocal(USER_ROLE_ID_KEY, res[0].userrole_id);
+  });
+
+  await getDoctorInfoApi({ found_id: getUserRoleId() }).then((res) => {
+    if (res && res.id) {
+      initChatStatus(res.id);
+    }
+  });
+});
+
+const {} = useUserStore();
+const { $chat_SDKAppID: SDKAppID, $chat_secretKey: SECRETKEY } =
+  getAppGlobalConfig();
+
+const tuiChatState = reactive({
+  SDKAppID,
+  userID: '',
+  userSig: '',
+});
+
+function initChatStatus(userID) {
+  const { userSig } = genTestUserSig({
+    SDKAppID,
+    secretKey: SECRETKEY,
+    userID,
+  });
+
+  Object.assign(tuiChatState, {
+    userID,
+    userSig,
+  });
+}
 </script>
 <style lang="scss"></style>

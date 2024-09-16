@@ -9,7 +9,7 @@
     ]"
   >
     <div :class="['tui-search-input', !isPC && 'tui-search-input-h5']">
-      <div class="tui-search-input-left">
+      <div class="tui-search-input-left !w-auto">
         <Icon
           class="icon"
           :file="searchIcon"
@@ -31,7 +31,7 @@
       >
       <div
         v-if="searchingStatus"
-        class="tui-search-input-right"
+        class="tui-search-input-right !w-auto"
         @click="endSearching"
       >
         <Icon

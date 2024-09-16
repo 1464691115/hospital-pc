@@ -52,9 +52,9 @@ export function getAppGlobalConfig() {
   return {
     $chat_userID: '',
     $chat_userSig: '',
-    $chat_SDKAppID: 1600021247,
+    $chat_SDKAppID: 1600049682,
     $chat_secretKey:
-      'a5334d14a081fda03aeeb757585a82d79c9319bfdaf77c8ac97abf5d27c9728e',
+      '3f230a2765d7b6fb2e599c9336e25a8f06109409ecf564d3a7dc08a8c4d535f6',
   }
 }
 
@@ -62,9 +62,9 @@ export function getAppEnvConfig() {
   const _config = {
     VITE_GLOB_APP_TITLE: pkg.description,
     /** 全局接口域名 */
-    VITE_GLOB_API_URL: 'http://ashfire.cn:51101',
+    VITE_GLOB_API_URL: '',
     /** 全局图片域名 */
-    VITE_GLOB_IMG_PREFIX: 'http://ashfire.cn:51101',
+    VITE_GLOB_IMG_PREFIX: 'https://auth.net-sun.com',
     VITE_GLOB_APP_SHORT_NAME: pkg.name,
     VITE_GLOB_FONT_URL: '/static/font/SourceHanSansSC-Regular.otf',
   }
@@ -73,9 +73,12 @@ export function getAppEnvConfig() {
   switch (version) {
     // 开发
     case devMode:
+      _config.VITE_GLOB_API_URL = '/base-api'
+      break
     //  线上
     case prodMode:
-      _config.VITE_GLOB_API_URL = 'http://ashfire.cn:51101'
+      _config.VITE_GLOB_API_URL = 'https://auth.net-sun.com'
+      break
   }
 
   return _config

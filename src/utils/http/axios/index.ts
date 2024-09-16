@@ -48,7 +48,7 @@ const transform: AxiosTransform = {
     const { code, result, text: message } = data;
 
     // 这里逻辑可以根据项目进行修改
-    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
+    const hasSuccess = data && Reflect.has(data, 'code') && code == ResultEnum.SUCCESS;
     if (hasSuccess) {
       let successMsg = message;
 
@@ -147,6 +147,9 @@ const transform: AxiosTransform = {
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
       (config as Recordable).headers.Authorization = options.authenticationScheme
+        ? `${options.authenticationScheme} ${token}`
+        : token;
+      (config as Recordable).headers['x-auth-token'] = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
     }

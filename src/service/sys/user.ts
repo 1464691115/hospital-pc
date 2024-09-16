@@ -2,9 +2,11 @@ import { defHttp } from '@/utils/http/axios'
 import { UserApi } from './ApiEnum'
 import type {
   LoginParams,
+  LoginResultModel,
   RegisterAccountParams,
   RegisterAccountResultModel,
 } from './model/userModel'
+import { queryParamsStr } from '@/utils'
 
 export function loginApi(params: LoginParams) {
   return getTokenApi(params)
@@ -14,7 +16,7 @@ export function sendPhoneCodeApi(phone) {
   return defHttp.get({
     url: UserApi.SMS + phone,
   }, {
-    domain: 'http://ashfire.cn:51100'
+    domain: '/auth-api'
   })
 }
 
@@ -23,18 +25,18 @@ export function registerAccountApi(params: RegisterAccountParams) {
     url: UserApi.REGISTER_USER,
     data: { user: params, code: params.code },
   }, {
-    domain: 'http://ashfire.cn:51100'
+    domain: '/auth-api'
   })
 }
 
 export function getTokenApi(params: RegisterAccountParams) {
-  return defHttp.post({
-    url: UserApi.GET_TOKEN,
+  return defHttp.post<LoginResultModel>({
+    url: UserApi.GET_TOKEN + queryParamsStr({ userrole_id: null }),
     data: {
       auth: params,
     },
   }, {
-    domain: 'http://ashfire.cn:51100'
+    apiUrl: '/auth-api'
   })
 }
 
@@ -47,7 +49,7 @@ export function getUserInfoApi() {
 export function getUserRoleApi(role_model = 'doctor') {
   return defHttp.get({
     url: UserApi.GET_USER_ROLE,
-    data: {
+    params: {
       role_model,
     },
   })
@@ -56,8 +58,8 @@ export function getUserRoleApi(role_model = 'doctor') {
 export function getRoleApi(role_model = 'doctor') {
   return defHttp.get({
     url: UserApi.GET_ROLE,
-    data: {
-      role_model,
+    params: {
+      userrole: role_model,
     },
   })
 }

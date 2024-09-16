@@ -30,7 +30,22 @@ export default defineConfig({
     }
   },
   server: {
-    hmr: true
+    hmr: true,
+    host: true,
+    proxy: {
+      '/base-api': {
+        target: 'https://api.net-sun.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: path => path.replace(/^\/base-api/, ''),
+      },
+      '/auth-api': {
+        target: 'https://auth.net-sun.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: path => path.replace(/^\/auth-api/, ''),
+      }
+    }
   },
   css: {
     // css预处理器

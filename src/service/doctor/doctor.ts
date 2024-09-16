@@ -8,7 +8,7 @@ import { PresModuleClass } from '../pres/pres'
 const LeftJoinClass = [DepartmentModuleClass, HospitalModuleClass] as const
 
 export class DoctorModuleClass extends OrmClass<DoctorEntity> {
-  constructor(public search_db = 'Doctors' as const) {
+  constructor(public search_db = 'Doctor' as const) {
     super(search_db)
   }
 }
@@ -32,12 +32,12 @@ export function updateDoctorApi(params) {
 
 export function getDoctorInfoApi(params = {}) {
   return DoctorModule.select()
-    .leftJoinAndSelect(LeftJoinClass, {
-      'Department.id': 'department_id',
-      'Hospital.id': 'hospital_id',
-    })
+    // .leftJoinAndSelect(LeftJoinClass, {
+    //   'Department.id': 'department_id',
+    //   'Hospital.id': 'hospital_id',
+    // })
     .where({ fild: params, type: '=' })
-    .andWhere({ fild: { name: 'None' }, type: '!=' })
+    .closeState()
     .getOne(params)
 }
 

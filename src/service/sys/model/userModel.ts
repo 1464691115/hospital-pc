@@ -6,11 +6,16 @@ export interface LoginParams {
   password?: string
 }
 
-export interface GetUserInfoModel extends UserInfo {}
+export interface GetUserInfoModel extends UserInfo { }
 
-export interface LoginResultModel extends UserInfo {}
+export interface LoginResultModel extends UserInfo {
+  user_id: string;
+  token: string;
+  username: string;
+  serviceAPI: any[];
+}
 
-export interface RegisterAccountParams extends LoginParams {}
+export interface RegisterAccountParams extends LoginParams { }
 export interface RegisterAccountResultModel extends UserInfo {
   id: string
 }

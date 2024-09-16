@@ -3,10 +3,10 @@
     class="tui-conversation"
     @click="handleClickConv"
   >
-    <ConversationHeader
+    <!-- <ConversationHeader
       v-if="isShowConversationHeader"
       ref="headerRef"
-    />
+    /> -->
     <ConversationNetwork />
     <ConversationList @handleSwitchConversation="handleSwitchConversation" />
   </div>

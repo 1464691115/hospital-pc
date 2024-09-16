@@ -29,7 +29,7 @@
           v-model="state.passData"
           password
           input-border
-          placeholder="密码"
+          placeholder="验证码"
         /> -->
         <view class="input-box" :class="isRed ? 'error-class' : ''">
           <view v-if="isRed" class="error-phone">无效的电话号码</view>
@@ -58,13 +58,13 @@
             v-model="state.passData"
             password="true"
             class="uni-input"
-            placeholder="请输入密码"
+            placeholder="请输入验证码"
             placeholder-class="input-placeholder"
           />
         </view>
 
         <view class="forget-psd"></view>
-        <!-- <navigator url="forget" open-type="navigate" hover-class="none" class="forget-psd">忘记密码？</navigator> -->
+        <!-- <navigator url="forget" open-type="navigate" hover-class="none" class="forget-psd">忘记验证码？</navigator> -->
 
         <Button @click="startLogin">立即登录</Button>
       </view>
@@ -91,8 +91,8 @@ const showToast = (text) => createErrorModal({ title: text });
 const mainHeight = ref(500);
 
 const state = reactive({
-  phoneData: '13100000001', // 用户/电话
-  passData: '123456', //密码
+  phoneData: '15392529970', // 用户/电话
+  passData: '952795289529', //验证码
   isRotate: false, //是否加载旋转
   isFocus: true, // 是否聚焦
 });
@@ -111,7 +111,7 @@ async function startLogin() {
   }
 
   if (!state.passData) {
-    showToast('密码不能为空');
+    showToast('验证码不能为空');
     return;
   }
 
@@ -120,7 +120,7 @@ async function startLogin() {
   try {
     await login({
       username: state.phoneData,
-      password: state.passData,
+      code: state.passData,
     });
 
     router.push({
