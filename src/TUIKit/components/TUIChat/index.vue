@@ -23,7 +23,10 @@
         <Forward @toggleMultipleSelectMode="toggleMultipleSelectMode" />
         <MessageList
           ref="messageListRef"
-          :class="['tui-chat-message-list', !isPC && 'tui-chat-h5-message-list']"
+          :class="[
+            'tui-chat-message-list',
+            !isPC && 'tui-chat-h5-message-list',
+          ]"
           :isGroup="isGroup"
           :groupID="groupID"
           :isNotInGroup="isNotInGroup"
@@ -53,7 +56,7 @@
             :class="[
               'tui-chat-message-input-toolbar',
               !isPC && 'tui-chat-h5-message-input-toolbar',
-              isUniFrameWork && 'tui-chat-uni-message-input-toolbar'
+              isUniFrameWork && 'tui-chat-uni-message-input-toolbar',
             ]"
             :displayType="inputToolbarDisplayType"
             @insertEmoji="insertEmoji"
@@ -79,7 +82,12 @@
       </div>
       <!-- Group Management -->
       <div
-        v-if="!isNotInGroup && isUniFrameWork && isGroup && headerExtensionList.length > 0"
+        v-if="
+          !isNotInGroup &&
+          isUniFrameWork &&
+          isGroup &&
+          headerExtensionList.length > 0
+        "
         class="group-profile"
         @click="handleGroup"
       >
@@ -106,12 +114,12 @@ import MultipleSelectPanel from './mulitple-select-panel/index.vue';
 import Forward from './forward/index.vue';
 import MessageInputToolbar from './message-input-toolbar/index.vue';
 import { isPC, isWeChat, isUniFrameWork, isMobile } from '../../utils/env';
-import type {ToolbarDisplayType } from '../../interface';
+import type { ToolbarDisplayType } from '../../interface';
 import TUIChatConfig from './config';
 
 const emits = defineEmits(['closeChat']);
 
-const groupID = ref(undefined);
+const groupID = ref<string>();
 const isGroup = ref(false);
 const isNotInGroup = ref(false);
 const notInGroupReason = ref<number>();
@@ -198,7 +206,8 @@ const handleGroup = () => {
 };
 
 function changeToolbarDisplayType(type: ToolbarDisplayType) {
-  inputToolbarDisplayType.value = inputToolbarDisplayType.value === type ? 'none' : type;
+  inputToolbarDisplayType.value =
+    inputToolbarDisplayType.value === type ? 'none' : type;
   if (inputToolbarDisplayType.value !== 'none' && isUniFrameWork) {
     uni.$emit('scroll-to-bottom');
   }
@@ -209,7 +218,8 @@ function scrollToLatestMessage() {
 }
 
 function toggleMultipleSelectMode(visible?: boolean) {
-  isMultipleSelectMode.value = visible === undefined ? !isMultipleSelectMode.value : visible;
+  isMultipleSelectMode.value =
+    visible === undefined ? !isMultipleSelectMode.value : visible;
 }
 
 function mergeForwardMessage() {
@@ -255,16 +265,23 @@ function onCurrentConversationIDUpdate(conversationID: string) {
   // Initialize chatType
   TUIChatConfig.setChatType(conversationType);
   // While converstaion change success, notify callkit and roomkit、or other components.
-  TUICore.notifyEvent(TUIConstants.TUIChat.EVENT.CHAT_STATE_CHANGED, TUIConstants.TUIChat.EVENT_SUB_KEY.CHAT_OPENED, { groupID: groupID.value });
+  TUICore.notifyEvent(
+    TUIConstants.TUIChat.EVENT.CHAT_STATE_CHANGED,
+    TUIConstants.TUIChat.EVENT_SUB_KEY.CHAT_OPENED,
+    { groupID: groupID.value }
+  );
   // The TUICustomerServicePlugin plugin determines if the current conversation is a customer service conversation, then sets chatType and activates the conversation.
   TUICore.callService({
     serviceName: TUIConstants.TUICustomerServicePlugin.SERVICE.NAME,
-    method: TUIConstants.TUICustomerServicePlugin.SERVICE.METHOD.ACTIVE_CONVERSATION,
+    method:
+      TUIConstants.TUICustomerServicePlugin.SERVICE.METHOD.ACTIVE_CONVERSATION,
     params: { conversationID: conversationID },
   });
   // Get chat header extensions
   if (TUIChatConfig.getChatType() === TUIConstants.TUIChat.TYPE.GROUP) {
-    headerExtensionList.value = TUICore.getExtensionList(TUIConstants.TUIChat.EXTENSION.CHAT_HEADER.EXT_ID);
+    headerExtensionList.value = TUICore.getExtensionList(
+      TUIConstants.TUIChat.EXTENSION.CHAT_HEADER.EXT_ID
+    );
   }
 }
 </script>

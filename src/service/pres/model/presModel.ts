@@ -2,6 +2,7 @@
 // /** $2  **/\npublic $1?: string
 
 import { CommonData } from "@/utils/http/orm/utils/CommonData"
+import { MedicineEntity } from "./medicineModel"
 
 export class PresEntity extends CommonData {
   /** 问诊订单id  **/
@@ -24,14 +25,7 @@ export class PresEntity extends CommonData {
   public patientmedicalrecord_id?: string
   /**  药品集合 格式 json  **/
   public medicine?:
-    | {
-      publicdrugs_id: string
-      total: string | number
-      dosage_txt: string
-      text: string
-      price: number
-    }[]
-    | string
+    | MedicineEntity[]
   /** 药师审核状态 0待审核 1审核通过 2审核不通过(任意一个药师审核不通过这个状态就会变2)  **/
   public pharmacists_state?: string
   /** 病种名称 格式 json 示例 ['病种1', '病种2']  **/

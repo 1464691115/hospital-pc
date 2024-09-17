@@ -14,7 +14,7 @@
             <div v-if="!isH5 || currentConversationID" class="TUIKit-main-main">
               <TUIChat>
                 <div class="size-full flex justify-center items-center">
-                  {{ TUITranslateService.t('欢迎使用腾讯云即时通信IM') }}
+                  <Empty :description="null" />
                 </div>
               </TUIChat>
               <TUIGroup :class="isH5 ? 'chat-popup' : 'chat-aside'" />
@@ -58,6 +58,7 @@ import {
 } from './components';
 import { isH5 } from './utils/env';
 import { isProdMode } from '@/utils/env';
+import { Empty } from 'ant-design-vue';
 
 const currentConversationID = ref<string>('');
 const currentNavbar = ref<string>('message');

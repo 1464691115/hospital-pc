@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { getToken } from '@/utils/auth';
 import { PresEntity } from '@/service/pres/model/presModel';
 import { getPresInfoApi } from '@/service/pres/pres';
+import { isDevMode } from '@/utils/env';
 
 interface PrescriptionState {
   /** 当前正在查看的处方订单 */
@@ -12,7 +13,7 @@ interface PrescriptionState {
 export const usePrescriptionStore = defineStore({
   id: 'app-prescription',
   state: (): PrescriptionState => ({
-    currentPreId: '',
+    currentPreId: isDevMode() ? 'ed85d4bd-86c8-419c-99b9-89f9cde3b4ca' : '',
     prescriptInfo: {}
   }),
   getters: {

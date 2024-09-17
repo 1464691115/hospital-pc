@@ -6,7 +6,6 @@
   </div>
 </template>
 <script lang="tsx" setup>
-import { onMounted } from 'vue';
 import HomeChat from './components/HomeChat.vue';
 import HomeDrug from './components/HomeDrug.vue';
 import HomePre from './components/HomePre.vue';
