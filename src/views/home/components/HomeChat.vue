@@ -1,6 +1,10 @@
 <template>
   <div v-if="tuiChatState.userID" class="size-screen">
-    <TUIKit class="size-full" v-bind="tuiChatState" />
+    <TUIKit
+      class="size-full"
+      v-bind="tuiChatState"
+      @changeTim="setCurrentPreId"
+    />
     <TUICallKit
       class="callkit-container"
       :allowedMinimized="true"
@@ -15,10 +19,12 @@ import { TUICallKit } from '@tencentcloud/call-uikit-vue';
 import { onMounted, reactive } from 'vue';
 import { getAppGlobalConfig } from '@/utils/env';
 import { getDoctorInfoApi } from '@/service/doctor/doctor';
-import { getToken, getUserId, getUserRoleId } from '@/utils/auth';
+import { getUserRoleId } from '@/utils/auth';
 import { getRoleApi } from '@/service/sys/user';
 import { Persistent } from '@/utils/cache/persistent';
 import { USER_ROLE_ID_KEY } from '@/enums/cacheEnum';
+import { usePrescriptionStore } from '@/store/modules/prescription';
+import { getPresListApi } from '@/service/pres/pres';
 
 onMounted(async () => {
   await getRoleApi('user').then((res) => {
@@ -35,6 +41,7 @@ onMounted(async () => {
 });
 
 const {} = useUserStore();
+const { setCurrentPreId } = usePrescriptionStore();
 const { $chat_SDKAppID: SDKAppID, $chat_secretKey: SECRETKEY } =
   getAppGlobalConfig();
 

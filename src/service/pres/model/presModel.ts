@@ -25,12 +25,12 @@ export class PresEntity extends CommonData {
   /**  药品集合 格式 json  **/
   public medicine?:
     | {
-        publicdrugs_id: string
-        total: string | number
-        dosage_txt: string
-        text: string
-        price: number
-      }[]
+      publicdrugs_id: string
+      total: string | number
+      dosage_txt: string
+      text: string
+      price: number
+    }[]
     | string
   /** 药师审核状态 0待审核 1审核通过 2审核不通过(任意一个药师审核不通过这个状态就会变2)  **/
   public pharmacists_state?: string

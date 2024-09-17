@@ -41,7 +41,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, framework } from './adapter-vue';
+import { ref, onMounted, framework, watch } from './adapter-vue';
 import { TUILogin } from '@tencentcloud/tui-core';
 import {
   TUIStore,
@@ -98,6 +98,8 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(['changeTim']);
+
 onMounted(() => {
   TUIStore.watch(StoreName.CONV, {
     currentConversationID: (id: string) => {
@@ -113,6 +115,10 @@ onMounted(() => {
 
   // Modify CallKit style in H5 environment
   modifyCallKitStyle();
+});
+
+watch(currentConversationID, (val) => {
+  emits('changeTim', val);
 });
 
 function login() {
