@@ -24,7 +24,6 @@ import { getRoleApi } from '@/service/sys/user';
 import { Persistent } from '@/utils/cache/persistent';
 import { USER_ROLE_ID_KEY } from '@/enums/cacheEnum';
 import { usePrescriptionStore } from '@/store/modules/prescription';
-import { getPresListApi } from '@/service/pres/pres';
 
 onMounted(async () => {
   await getRoleApi('user').then((res) => {

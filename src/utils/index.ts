@@ -1,7 +1,7 @@
 import type { RouteLocationNormalized, RouteRecordNormalized } from 'vue-router';
 import type { App, Component } from 'vue';
 
-import { intersectionWith, isEqual, mergeWith, unionWith } from 'lodash-es';
+import { intersectionWith, isEqual, isString, mergeWith, unionWith } from 'lodash-es';
 import { unref } from 'vue';
 import { isArray, isObject } from '@/utils/is';
 
@@ -159,4 +159,8 @@ export function queryParamsStr(_data = {}) {
     '?' +
     new URLSearchParams(_data).toString()
   )
+}
+
+export function jsonStrToObject<T>(str: T): Exclude<T, undefined> {
+  return (isString(str) && str.includes('{') ? JSON.parse(str) : str) || {}
 }

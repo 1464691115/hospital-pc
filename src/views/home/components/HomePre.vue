@@ -74,11 +74,12 @@
 <script lang="ts" setup>
 import { Button, Card, Form, Input, Popconfirm, Tabs } from 'ant-design-vue';
 import { PresEntity } from '@/service/pres/model/presModel';
-import { h, reactive } from 'vue';
+import { h, reactive, watch } from 'vue';
 import { uniqueId } from 'lodash-es';
 import { MedicineEntity } from '@/service/pres/model/medicineModel';
 import { useMessage } from '@/hooks/web/useMessage';
 import { SwapOutlined } from '@ant-design/icons-vue';
+import { usePrescriptionStore } from '@/store/modules/prescription';
 
 const tabsState = reactive({
   activeKey: '1',
@@ -91,6 +92,15 @@ const tabsState = reactive({
 });
 
 const { createConfirm } = useMessage();
+const PresStore = usePrescriptionStore();
+
+watch(
+  () => PresStore.prescriptInfo,
+  (val) => {
+    if (Array.isArray(val.pres_body?.Drugs)) {
+    }
+  }
+);
 
 function handleAddPre() {
   const self_state_list = tabsState.list.find(

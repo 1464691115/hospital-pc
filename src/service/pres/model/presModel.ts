@@ -24,8 +24,8 @@ export class PresEntity extends CommonData {
   /** 患者病例id  **/
   public patientmedicalrecord_id?: string
   /**  药品集合 格式 json  **/
-  public medicine?:
-    | MedicineEntity[]
+  public medicine?: MedicineEntity[]
+  public pres_body?: { Drugs: any[] }
   /** 药师审核状态 0待审核 1审核通过 2审核不通过(任意一个药师审核不通过这个状态就会变2)  **/
   public pharmacists_state?: string
   /** 病种名称 格式 json 示例 ['病种1', '病种2']  **/

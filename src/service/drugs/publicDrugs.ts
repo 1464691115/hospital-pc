@@ -7,7 +7,7 @@ export class PublicDrugsModuleClass extends OrmClass<PublicDrugsEntity> {
   }
 }
 
-const PublicDrugsModule = new PublicDrugsModuleClass()
+export const PublicDrugsModule = new PublicDrugsModuleClass()
 
 export function getPublicDrugsListApi(params) {
   return PublicDrugsModule.select().closeState().getMany(params)
