@@ -13,6 +13,10 @@ export function getPublicDrugsListApi(params) {
   return PublicDrugsModule.select().closeState().getMany(params)
 }
 
+export function getPublicDrugsOptionsApi() {
+  return PublicDrugsModule.select().find(['name', 'id']).getAll()
+}
+
 export function getPublicDrugsInfoApi(params) {
   return PublicDrugsModule.select()
     .where({ fild: { id: params.id }, type: '=' })

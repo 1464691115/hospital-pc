@@ -78,6 +78,7 @@ import { useUserStore } from '@/store/modules/user';
 import { Button } from 'ant-design-vue';
 import { useMessage } from '@/hooks/web/useMessage';
 import { useRouter } from 'vue-router';
+import { registerAccountApi } from '@/service/sys/user';
 
 onMounted(() => {
   state.isRotate = false;
@@ -91,9 +92,9 @@ const showToast = (text) => createErrorModal({ title: text });
 const mainHeight = ref(500);
 
 const state = reactive({
-  phoneData: '15392529970', // 用户/电话
-  passData: '952795289529', //验证码
-  isRotate: false, //是否加载旋转
+  phoneData: '17744470272', // 用户/电话
+  passData: '123456', //验证码
+  isRotate: false,   //是否加载旋转
   isFocus: true, // 是否聚焦
 });
 
@@ -111,16 +112,20 @@ async function startLogin() {
   }
 
   if (!state.passData) {
-    showToast('验证码不能为空');
+    showToast('密码不能为空');
     return;
   }
 
   state.isRotate = true;
 
   try {
+    // registerAccountApi({
+    //   username: state.phoneData,
+    //   password: state.passData
+    // })
     await login({
       username: state.phoneData,
-      code: state.passData,
+      password: state.passData,
     });
 
     router.push({

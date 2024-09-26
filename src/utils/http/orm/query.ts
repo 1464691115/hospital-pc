@@ -71,6 +71,8 @@ export class SelectBuilderClass<
         group_by: this.group_by,
         group_by_date: this.group_by_date,
       },
+    }, {
+      isTransformResponse: isTransformResponse !== false
     })
 
     return res
@@ -183,7 +185,7 @@ export class SelectBuilderClass<
     return this
   }
 
-  /** 链接跨表 例如：leftJoinAndSelect('Doctor', {'Doctor.id': 'doctor_id'}) */
+  /** 链接跨表 例如：leftJoinAndSelect('Doctor', {'Doctors.id': 'doctor_id'}) */
   public leftJoinAndSelect<
     LQ extends Array<new () => any> | readonly (new () => any)[],
     IF,

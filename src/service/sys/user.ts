@@ -6,7 +6,6 @@ import type {
   RegisterAccountParams,
   RegisterAccountResultModel,
 } from './model/userModel'
-import { queryParamsStr } from '@/utils'
 
 export function loginApi(params: LoginParams) {
   return getTokenApi(params)
@@ -31,7 +30,7 @@ export function registerAccountApi(params: RegisterAccountParams) {
 
 export function getTokenApi(params: RegisterAccountParams) {
   return defHttp.post<LoginResultModel>({
-    url: UserApi.GET_TOKEN + queryParamsStr({ userrole_id: null }),
+    url: UserApi.GET_TOKEN,
     data: {
       auth: params,
     },
@@ -59,7 +58,7 @@ export function getRoleApi(role_model = 'doctor') {
   return defHttp.get({
     url: UserApi.GET_ROLE,
     params: {
-      userrole: role_model,
+      role_model,
     },
   })
 }
@@ -86,5 +85,7 @@ export function bindUserRoleApi(role_id) {
     data: {
       role: { role_id },
     },
+  }, {
+    errorMessageMode: 'none'
   })
 }

@@ -52,9 +52,9 @@ export function getAppGlobalConfig() {
   return {
     $chat_userID: '',
     $chat_userSig: '',
-    $chat_SDKAppID: 1600049682,
+    $chat_SDKAppID: 1600021247,
     $chat_secretKey:
-      '3f230a2765d7b6fb2e599c9336e25a8f06109409ecf564d3a7dc08a8c4d535f6',
+      'a5334d14a081fda03aeeb757585a82d79c9319bfdaf77c8ac97abf5d27c9728e',
   }
 }
 

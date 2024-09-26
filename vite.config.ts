@@ -34,13 +34,13 @@ export default defineConfig({
     host: true,
     proxy: {
       '/base-api': {
-        target: 'https://api.net-sun.com',
+        target: 'https://xhl.net-sun.com:51101',
         changeOrigin: true,
         secure: false,
         rewrite: path => path.replace(/^\/base-api/, ''),
       },
       '/auth-api': {
-        target: 'https://auth.net-sun.com',
+        target: 'https://xhl.net-sun.com:51100',
         changeOrigin: true,
         secure: false,
         rewrite: path => path.replace(/^\/auth-api/, ''),

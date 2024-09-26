@@ -164,3 +164,8 @@ export function queryParamsStr(_data = {}) {
 export function jsonStrToObject<T>(str: T): Exclude<T, undefined> {
   return (isString(str) && str.includes('{') ? JSON.parse(str) : str) || {}
 }
+
+
+export function valueDefault(txt?): string {
+  return txt == 'None' ? '' : txt ?? ''
+}

@@ -1,37 +1,38 @@
 import { defineStore } from 'pinia';
-import { getToken } from '@/utils/auth';
 import { PresEntity } from '@/service/pres/model/presModel';
-import { getPresInfoApi } from '@/service/pres/pres';
-import { isDevMode } from '@/utils/env';
-import { isString } from 'lodash-es';
+import { getConsultationOrderInfoApi, getConsultationOrderOptionsApi } from '@/service/consultation/order';
 import { jsonStrToObject } from '@/utils';
-import { getConsultationOrderOptionsApi } from '@/service/consultation/order';
 
 interface PrescriptionState {
-  /** 当前正在查看的处方订单 */
-  currentPreId: string
-  prescriptInfo: PresEntity[]
+  /** 当前正在查看的问诊订单 */
+  currentConId: string
+  prescriptList: PresEntity[]
 }
 
 export const usePrescriptionStore = defineStore({
   id: 'app-prescription',
   state: (): PrescriptionState => ({
-    currentPreId: isDevMode() ? 'ed85d4bd-86c8-419c-99b9-89f9cde3b4ca' : '',
-    prescriptInfo: []
+    currentConId: '',
+    prescriptList: [] as PresEntity[]
   }),
   getters: {
   },
   actions: {
-    async setCurrentPreId(id: string) {
-      this.currentPreId = id.replace(/(GROUP|C2C)/, '')
+    async setCurrentConId(id: string) {
+      this.currentConId = id.replace(/(GROUP|C2C)/, '')
+      console.log(id);
+
 
       switch (/(GROUP|C2C)/.exec(id)?.[0]) {
         case 'GROUP':
-          const res = await getConsultationOrderOptionsApi({ id: this.currentPreId })
-          res.medicine = jsonStrToObject(res.medicine)
-          res.pres_body = jsonStrToObject(res.pres_body)
+          const res = await getConsultationOrderInfoApi({ id: this.currentConId })
+          // res.medicine = jsonStrToObject(res.medicine)
+          // res.pres_body = jsonStrToObject(res.pres_body)
 
-          this.prescriptInfo = res
+          // this.prescriptList = res.Pres 
+
+          console.log(res.Pres);
+
 
           break;
         case 'C2C':

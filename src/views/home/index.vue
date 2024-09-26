@@ -1,8 +1,8 @@
 <template>
   <div class="size-screen flex min-w-320">
     <HomeChat />
-    <HomePre v-if="prescriptStore.currentPreId" />
-    <HomeDrug v-if="prescriptStore.currentPreId" />
+    <HomePre v-if="prescriptStore.currentConId" />
+    <HomeDrug v-if="prescriptStore.currentConId" />
   </div>
 </template>
 <script lang="tsx" setup>

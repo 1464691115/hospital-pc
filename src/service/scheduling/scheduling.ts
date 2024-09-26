@@ -28,7 +28,7 @@ export const SchedulingModule = new SchedulingModuleClass()
 export function getSchedulingListApi(params) {
   return SchedulingModule.select()
     .leftJoinAndSelect(LeftJoinClass, {
-      'Doctor.id': 'doctors_id',
+      'Doctors.id': 'doctors_id',
       'Department.id': 'department_id',
       'Hospital.id': 'hospital_id',
     })

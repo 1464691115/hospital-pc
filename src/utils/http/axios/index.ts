@@ -148,10 +148,10 @@ const transform: AxiosTransform = {
       // jwt token
       (config as Recordable).headers.Authorization = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
-        : token;
+        : token || '';
       (config as Recordable).headers['x-auth-token'] = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
-        : token;
+        : token || '';
     }
     return config;
   },

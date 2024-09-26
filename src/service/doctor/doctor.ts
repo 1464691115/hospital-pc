@@ -8,7 +8,7 @@ import { PresModuleClass } from '../pres/pres'
 const LeftJoinClass = [DepartmentModuleClass, HospitalModuleClass] as const
 
 export class DoctorModuleClass extends OrmClass<DoctorEntity> {
-  constructor(public search_db = 'Doctor' as const) {
+  constructor(public search_db = 'Doctors' as const) {
     super(search_db)
   }
 }

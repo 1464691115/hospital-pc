@@ -18,21 +18,41 @@ import { genTestUserSig, TUIKit } from '@/TUIKit';
 import { TUICallKit } from '@tencentcloud/call-uikit-vue';
 import { onMounted, reactive } from 'vue';
 import { getAppGlobalConfig } from '@/utils/env';
-import { getDoctorInfoApi } from '@/service/doctor/doctor';
+import {
+  addDoctorApi,
+  getDoctorInfoApi,
+  getDoctorOptionsApi,
+} from '@/service/doctor/doctor';
 import { getUserRoleId } from '@/utils/auth';
-import { getRoleApi } from '@/service/sys/user';
+import {
+  bindUserRoleApi,
+  getRoleApi,
+  getUserRoleApi,
+} from '@/service/sys/user';
 import { Persistent } from '@/utils/cache/persistent';
 import { USER_ROLE_ID_KEY } from '@/enums/cacheEnum';
 import { usePrescriptionStore } from '@/store/modules/prescription';
 
 onMounted(async () => {
-  await getRoleApi('user').then((res) => {
-    if (!res?.[0]?.userrole_id) return;
+  await getRoleApi().then(async (result) => {
+    if (!result?.[0]?.id) return;
 
-    Persistent.setLocal(USER_ROLE_ID_KEY, res[0].userrole_id);
+    try {
+      await bindUserRoleApi(result[0].id);
+    } catch (error) {
+      console.error(error);
+      
+    } finally {
+      await getUserRoleApi().then((res) => {
+        if (!res?.[0]?.id) return;
+        Persistent.setLocal(USER_ROLE_ID_KEY, res[0].id);
+      });
+    }
   });
 
-  await getDoctorInfoApi({ found_id: getUserRoleId() }).then((res) => {
+  await getDoctorInfoApi({ userrole_id: getUserRoleId() }).then((res) => {
+    console.log(res);
+    
     if (res && res.id) {
       initChatStatus(res.id);
     }
@@ -40,7 +60,7 @@ onMounted(async () => {
 });
 
 const {} = useUserStore();
-const { setCurrentPreId } = usePrescriptionStore();
+const { setCurrentConId: setCurrentPreId } = usePrescriptionStore();
 const { $chat_SDKAppID: SDKAppID, $chat_secretKey: SECRETKEY } =
   getAppGlobalConfig();
 

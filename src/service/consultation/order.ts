@@ -31,7 +31,7 @@ export async function getConsultationOrderListApi(params = {}) {
       'Hospital.id': 'hospital_id',
       'Patient.id': 'patient_id',
       'Pres.consultationorder_id': 'id',
-    })
+    } as any)
     .where({
       fild: {
         ...new EntityClass(params, ConsultationOrderEntity).getValues(),
@@ -43,7 +43,7 @@ export async function getConsultationOrderListApi(params = {}) {
 
   if (res.result?.list)
     res.result.list = res.result.list?.map((el) => {
-      el.Patient = formatPatientInfo(el.Patient || {})
+      el.Patient = formatPatientInfo(el.Patient || {} as any)
       return el
     })
 
@@ -53,14 +53,15 @@ export async function getConsultationOrderListApi(params = {}) {
 export async function getConsultationOrderInfoApi(params) {
   const res = await ConsultationOrderModule.select()
     .closeState()
-    .leftJoinAndSelect([PatientModuleClass, DoctorModuleClass] as const, {
-      'Doctor.id': 'doctors_id',
+    .leftJoinAndSelect([PatientModuleClass, DoctorModuleClass, PresModuleClass] as const, {
+      'Doctors.id': 'doctors_id',
       'Patient.id': 'patient_id',
-    })
+      'Pres.consultationorder_id': 'id',
+    } as any)
     .where({ fild: { id: params.id }, type: '=' })
     .getOne(params)
 
-  res.Patient = formatPatientInfo(res.Patient || {})
+  res.Patient = formatPatientInfo(res.Patient || {} as any)
 
   return res
 }

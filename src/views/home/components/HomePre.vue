@@ -1,21 +1,29 @@
 <template>
   <Card class="w-xl h-full overflow-y-auto">
-    <div>
-      <Form layout="">
-        <Form.Item label="诊断（疾病，可调整）">
-          <Input />
-        </Form.Item>
-        <Form.Item label="医嘱">
-          <Input.TextArea />
-        </Form.Item>
-      </Form>
-    </div>
     <Tabs v-model="tabsState.activeKey">
       <Tabs.TabPane
         v-for="(item, index) in tabsState.list"
         :key="item.id"
         :tab="index == 0 ? '主处方' : '副处方'"
       >
+        <Form layout="vertical">
+          <Form.Item label="诊断（疾病，可调整）">
+            <Select
+              v-model:value="item.DRGDatabase_name"
+              mode="tags"
+              style="width: 100%"
+              placeholder="请输入诊断"
+              :options="[]"
+            />
+          </Form.Item>
+          <Form.Item label="医嘱">
+            <Input.TextArea
+              v-model:value="item.conditions"
+              placeholder="请填写医嘱"
+              :rows="4"
+            />
+          </Form.Item>
+        </Form>
         <template v-if="Array.isArray(item.medicine)">
           <Card
             v-for="(pre, pi) in item.medicine"
@@ -48,7 +56,18 @@
             </template>
             <Form v-if="!pre.hidden">
               <Form.Item label="药品">
-                <Input />
+                <Select
+                  show-search
+                  placeholder="input search text"
+                  style="width: 200px"
+                  :default-active-first-option="false"
+                  :show-arrow="false"
+                  :filter-option="false"
+                  :not-found-content="null"
+                  :options="drugsOptions"
+                  @search="null"
+                  @change="null"
+                />
               </Form.Item>
               <Form.Item label="用法">
                 <Input />
@@ -72,35 +91,49 @@
 </template>
 
 <script lang="ts" setup>
-import { Button, Card, Form, Input, Popconfirm, Tabs } from 'ant-design-vue';
+import {
+  Button,
+  Card,
+  Form,
+  Input,
+  Popconfirm,
+  Select,
+  Tabs,
+} from 'ant-design-vue';
 import { PresEntity } from '@/service/pres/model/presModel';
-import { h, reactive, watch } from 'vue';
+import { computed, h, reactive, watch } from 'vue';
 import { uniqueId } from 'lodash-es';
 import { MedicineEntity } from '@/service/pres/model/medicineModel';
 import { useMessage } from '@/hooks/web/useMessage';
 import { SwapOutlined } from '@ant-design/icons-vue';
 import { usePrescriptionStore } from '@/store/modules/prescription';
+import { useRequest } from '@/hooks/web/useRequest';
+import { getPublicDrugsOptionsApi } from '@/service/drugs/publicDrugs';
 
 const tabsState = reactive({
   activeKey: '1',
   list: [
     {
       id: '1',
+      DRGDatabase_name: [],
+      conditions: '',
       medicine: [new MedicineEntity()],
     },
-  ] as PresEntity[],
+  ],
 });
 
 const { createConfirm } = useMessage();
 const PresStore = usePrescriptionStore();
+const drugsFetch = useRequest(getPublicDrugsOptionsApi);
 
-watch(
-  () => PresStore.prescriptInfo,
-  (val) => {
-    if (Array.isArray(val.pres_body?.Drugs)) {
-    }
-  }
-);
+const drugsOptions = computed(() => {
+  console.log(drugsFetch.data?.value);
+
+  return drugsFetch.data?.value?.result?.list?.map?.((el) => ({
+    label: el.name,
+    value: el.id,
+  }));
+});
 
 function handleAddPre() {
   const self_state_list = tabsState.list.find(
